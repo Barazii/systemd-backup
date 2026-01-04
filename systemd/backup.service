@@ -1,0 +1,23 @@
+[Unit]
+Description=Automated File Backup Service
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/backup-service/backup_service.py
+EnvironmentFile=/etc/systemd/system/backup.env
+User=backupuser  # Create a dedicated user for security: sudo useradd -r -s /bin/false backupuser
+Group=backupgroup  # sudo groupadd backupgroup
+WorkingDirectory=/opt/backup-service
+Restart=on-failure
+RestartSec=60s
+
+# Security features
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+NoNewPrivileges=true
+CapabilityBoundingSet=~ CAP_SYS_ADMIN CAP_SYS_BOOT  # Restrict capabilities
+
+[Install]
+WantedBy=multi-user.target

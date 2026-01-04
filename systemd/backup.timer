@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for Automated File Backup
+
+[Timer]
+OnCalendar=*-*-* 00:00:00
+RandomizedDelaySec=3600  # Random delay up to 1 hour
+Persistent=true  # Run missed timers
+
+[Install]
+WantedBy=timers.target
